@@ -101,7 +101,7 @@ const loginUser = async (req, res) => {
         res.cookie("AccessToken", accessToken);
 
         // return response
-        res.status(200).json({ Message: "User has been  sucessfully Loged in.", user });
+        res.status(200).json({ Message: "User has been  sucessfully Loged in.", user, token : accessToken });
 
     } catch (error) {
         return res.status(400).json({ Error: error.message });
