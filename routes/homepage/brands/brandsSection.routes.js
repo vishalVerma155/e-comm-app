@@ -17,7 +17,7 @@ router.post("/updateBrandSection/:sectionId", verifyJWT, upload.array("brandSect
 router.get("/getAllBrandSection", verifyJWT, getAllBrandsSection);
 
 // get particular sale section
-router.get("/getBrandSection/:sectionId", verifyJWT, getBrandsSection);
+router.get("/getBrandSection/:sectionId", getBrandsSection);
 
 // delete sale section
 router.delete("/deleteBrandSection/:sectionId", verifyJWT, deleteBrandsSection );

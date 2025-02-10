@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/reisterCompanyLogo", verifyJWT, upload.single('companyLogo'),registerCompanyLogo);
 
 // get company logo
-router.get("/getCompanyLogo/:logoId",  getCompanyLogo);
+router.get("/getCompanyLogo/:logoId",getCompanyLogo);
 
 // get all register company logo
 router.get("/getAllCompanyLogo", verifyJWT, getAllCompanyLogo);

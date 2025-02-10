@@ -13,7 +13,7 @@ router.post("/registerHeroSection", verifyJWT, upload.single("heroSectionImage")
 router.post("/updateHeroSection/:imageId", verifyJWT,upload.single("heroSectionImage"), updateHeroSection);
 
 // get hero section
-router.get("/getHeroSection/:imageId", verifyJWT, getHeroSection);
+router.get("/getHeroSection/:imageId", getHeroSection);
 
 // get all hero section images
 router.get("/getAllHeroSectionImages", verifyJWT, getAllHeroSection);
