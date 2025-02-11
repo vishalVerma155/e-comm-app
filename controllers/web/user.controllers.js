@@ -9,10 +9,10 @@ const registerUser = async (req, res) => {
         const { name, email, userName, password } = req.body;
 
         // check blank fields
-        const isBlank = [name, email, userName, password].some(fields => fields.trim() === "");
+        const isBlank = [name, email].some(fields => fields.trim() === "");
 
         if (isBlank) {
-            return res.status(401).json({ Message: "All fields are compulsary" });
+            return res.status(401).json({ Message: "Name and email are compulsary" });
         }
 
         // check if user is already existed
@@ -23,12 +23,18 @@ const registerUser = async (req, res) => {
         }
 
 
-        const hashedPassword = await hashPassword(password);
+        const hashedPassword = null;
+
+        if(password){
+            hashedPassword = 
+            await hashPassword(password);
+        }
+
         // create user
         const newUser = new User({
             name,
             email,
-            userName,
+            userName : userName? userName : null,
             password: hashedPassword
         })
 
@@ -43,8 +49,7 @@ const registerUser = async (req, res) => {
 
         const payload = {
             _id: user._id,
-            email: user.email,
-            userName: user.userName
+            email: user.email
         };
 
         // generate access token
@@ -53,7 +58,7 @@ const registerUser = async (req, res) => {
         res.cookie("AccessToken", accessToken);
 
         // return response
-        res.status(200).json({ Message: "User has been  successfully register.", user });
+        res.status(200).json({ Message: "User has been  successfully register.", user, token : accessToken });
 
     } catch (error) {
         return res.status(400).json({ Error: error.message });
