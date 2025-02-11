@@ -15,8 +15,7 @@ const userSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    unique: true,
-    trim : true
+    unique: true
   },
   google_id: {
     type: String,
@@ -25,8 +24,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 6,
-    trim : true
+    minlength: 6
   }
 }, {timestamps : true});
 
