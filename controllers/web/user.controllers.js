@@ -6,24 +6,25 @@ const generateJWT = require('../../utils/jwt.js')
 const registerUser = async (req, res) => {
 
     try {
-        const { name, email, userName, password } = req.body;
+        const { name, email, userName, password, google_id } = req.body;
 
         // check blank fields
         const isBlank = [name, email].some(fields => fields.trim() === "");
+        console.log("username = ", userName, "email", email);
 
         if (isBlank) {
             return res.status(401).json({ Message: "Name and email are compulsary" });
         }
 
         // check if user is already existed
-        const isUserExisted = await User.findOne({ $or: [{ userName }, { email }] });
+        const isUserExisted = await User.findOne({ email });
 
         if (isUserExisted) {
             return res.status(401).json({ Message: "User is already existed. Please login or choose other user name" });
         }
 
 
-        const hashedPassword = null;
+        const hashedPassword = undefined;
 
         if(password){
             hashedPassword = 
@@ -34,14 +35,15 @@ const registerUser = async (req, res) => {
         const newUser = new User({
             name,
             email,
-            userName : userName? userName : null,
-            password: hashedPassword
+            userName : userName? userName : undefined,
+            password: hashedPassword,
+            google_id : google_id? google_id : undefined
         })
 
         // save user
         await newUser.save();
 
-        const user = await User.findOne({ $or: [{ userName }, { email }] });
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(404).json({ Message: "User not found. There is something problem in user data saving" });

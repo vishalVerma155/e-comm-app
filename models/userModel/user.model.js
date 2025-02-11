@@ -1,32 +1,35 @@
 const mongoose = require('mongoose');
 
-// Define the user schema
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim : true
+    trim: true
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    trim : true
+    trim: true
   },
   userName: {
     type: String,
-    unique: true
+    unique: true,
+    sparse: true,  //  Good practice
+    required: false  //  Explicitly making it optional
   },
   google_id: {
     type: String,
     unique: true,
-    sparse: true
+    sparse: true,  //  Good practice
+    required: false  //  Explicitly making it optional
   },
   password: {
     type: String,
-    minlength: 6
+    minlength: 6,
+    required: false  // Removed sparse (not needed) & made optional
   }
-}, {timestamps : true});
+}, { timestamps: true });
 
 
 // Create the User model
