@@ -24,7 +24,7 @@ const registerUser = async (req, res) => {
         }
 
 
-        const hashedPassword = undefined;
+        let hashedPassword = undefined;
 
         if(password){
             hashedPassword = 
