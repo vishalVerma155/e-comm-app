@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   google_id: {
     type: String,
     unique: true,
-    trim : true
+    sparse: true
   },
   password: {
     type: String,
