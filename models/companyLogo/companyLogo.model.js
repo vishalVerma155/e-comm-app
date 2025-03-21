@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const companyLogoSchema = new mongoose.Schema({
     image: {
         type: String,
-        required: true,
+        required: false,
     }
 }, { timestamps: true });
 
