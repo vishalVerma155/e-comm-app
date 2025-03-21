@@ -3,6 +3,7 @@ const express = require('express');
 const verifyJWT = require('../../middleware/auth.middleware.js');
 const { upload } = require('../../utils/multer.js');
 const router = express.Router();
+const {getAllRegisterCategories, getAllRegisterBrands} = require("../../controllers/product/categorie.controllers.js");
 
 // create product
 router.post("/createProduct", verifyJWT,upload.fields([{name : "mainImage", maxCount : 1},{name : "subImages", maxCount : 4} ]), createProduct);
@@ -21,6 +22,13 @@ router.delete("/deleteProduct/:productId", verifyJWT, deleteProduct);
 
 // apply filter on price 
 router.get("/getFilteredProducts", verifyJWT, applyFilterOnProducts);
+
+
+// PRODUCT CATEGORY
+router.get("/getAllRegisterCategory", verifyJWT, getAllRegisterCategories);
+
+// get all register bfrands
+router.get("/getAllRegisterBrands", verifyJWT, getAllRegisterBrands);
 
 
 module.exports = router;

@@ -64,7 +64,11 @@ const productSchema = new mongoose.Schema(
         type : String,
         enum : ["men", "women", "kids"],
         trim : true
-    }
+    },
+    productDescription : {
+      type : String,
+      trim : true
+  }
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
