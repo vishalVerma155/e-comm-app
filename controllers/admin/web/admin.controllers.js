@@ -26,7 +26,7 @@ const registerAdmin = async (req, res) => {
         }
 
         const accessToken = generateJWT(payload);
-        res.cookie("accessToken", accessToken);
+        res.cookie("AccessToken", accessToken);
 
         return res.status(201).json({success: true, message: 'Admin registered successfully', admin : newAdmin, token : accessToken });
     } catch (error) {
@@ -58,7 +58,7 @@ const loginAdmin = async (req, res) => {
         const accessToken = generateJWT(payload);
 
         // Set cookie (optional)
-        res.cookie('accessToken', accessToken );
+        res.cookie('AccessToken', accessToken );
         
        return res.json({ success: true, message: 'Login successful',admin, token : accessToken });
     } catch (error) {
