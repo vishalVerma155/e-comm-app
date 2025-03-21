@@ -21,6 +21,7 @@ try {
     return res.status(200).json({Message : "Company logo sucessfully register", company_Logo : createdLogo}); // return response
 } catch (error) {
     return res.status(400).json({Error : error.message});  
+    
 }
 }
 
