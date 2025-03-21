@@ -1,6 +1,6 @@
 const User = require('../../models/userModel/user.model.js');
 const { hashPassword, comparePassword } = require('../../utils/bcrypt.js');
-const generateJWT = require('../../utils/jwt.js')
+const {generateJWT} = require('../../utils/jwt.js')
 
 // user register controllers
 const registerUser = async (req, res) => {
