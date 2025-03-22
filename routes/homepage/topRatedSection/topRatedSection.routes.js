@@ -4,7 +4,7 @@ const verifyJWT = require('../../../middleware/auth.middleware.js');
 const router = express.Router();
 
 // create top rated section
-router.get("/createTopRatedSection", verifyJWT, createTopRatedSection);
+router.get("/getTopRatedSection", createTopRatedSection);
 
 
 module.exports = router;

@@ -13,10 +13,10 @@ router.post("/registerNewLeagueSection", verifyJWT, upload.single("newLeagueSect
 router.put("/updateNewLeagueSection/:imageId", verifyJWT,upload.single("newLeagueSectionImage"), updateNewLeagueSection);
 
 // get hero section
-router.get("/getNewLeagueSection/:imageId", verifyJWT, getNewLeagueSection);
+router.get("/getNewLeagueSection/:imageId",  getNewLeagueSection);
 
 // get all hero section images
-router.get("/getAllNewLeagueSectionImages", verifyJWT, getAllNewLeagueSection);
+router.get("/getAllNewLeagueSectionImages",  getAllNewLeagueSection);
 
 // delete hero section image
 router.delete("/deleteNewLeagueSection/:imageId", verifyJWT, deleteNewLeagueSection);

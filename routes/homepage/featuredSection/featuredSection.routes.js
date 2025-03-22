@@ -11,10 +11,10 @@ router.post("/registerFeaturedSection", verifyJWT, upload.fields([{name : "mainI
 router.put("/updateFeaturedSection/:sectionId", verifyJWT, upload.fields([{name : "mainImage", maxCount : 1},{name : "subImages", maxCount : 3} ]), updateFeaturedSection);
 
 // get all feature section
-router.get("/getAllFeaturedSection", verifyJWT, getAllFeaturedSection);
+router.get("/getAllFeaturedSection",  getAllFeaturedSection);
 
 // get particular featured section
-router.get("/getFeaturedSection/:sectionId", verifyJWT, getFeaturedsection);
+router.get("/getFeaturedSection/:sectionId",  getFeaturedsection);
 
 // delete featured section
 router.delete("/deleteFeaturedSection/:sectionId", verifyJWT, deleteFeaturedsection);

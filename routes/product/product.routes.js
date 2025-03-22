@@ -12,23 +12,23 @@ router.post("/createProduct", verifyJWT,upload.fields([{name : "mainImage", maxC
 router.put("/updateProduct/:productId", verifyJWT, upload.fields([{name : "mainImage", maxCount : 1},{name : "subImages", maxCount : 4} ]), updateProduct );
 
 // get all product
-router.get("/getAllProduct", verifyJWT, getAllProducts);
+router.get("/getAllProduct",  getAllProducts);
 
 // get product by id
-router.get("/getProduct/:productId", verifyJWT, getProduct);
+router.get("/getProduct/:productId",  getProduct);
 
 // delete product
 router.delete("/deleteProduct/:productId", verifyJWT, deleteProduct);
 
 // apply filter on price 
-router.get("/getFilteredProducts", verifyJWT, applyFilterOnProducts);
+router.get("/getFilteredProducts",  applyFilterOnProducts);
 
 
 // PRODUCT CATEGORY
-router.get("/getAllRegisterCategory", verifyJWT, getAllRegisterCategories);
+router.get("/getAllRegisterCategory",  getAllRegisterCategories);
 
 // get all register bfrands
-router.get("/getAllRegisterBrands", verifyJWT, getAllRegisterBrands);
+router.get("/getAllRegisterBrands",  getAllRegisterBrands);
 
 
 module.exports = router;

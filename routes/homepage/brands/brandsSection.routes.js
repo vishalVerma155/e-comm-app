@@ -14,7 +14,7 @@ router.post("/updateImageBrandSection/:sectionId/:imageId", verifyJWT, upload.si
 router.post("/updateBrandSection/:sectionId", verifyJWT, upload.array("brandSectionImages", 6), updateBrandsSection);
 
 // get all brand sections
-router.get("/getAllBrandSection", verifyJWT, getAllBrandsSection);
+router.get("/getAllBrandSection",  getAllBrandsSection);
 
 // get particular sale section
 router.get("/getBrandSection/:sectionId", getBrandsSection);

@@ -4,7 +4,7 @@ const verifyJWT = require('../../../middleware/auth.middleware.js');
 const router = express.Router();
 
 // register recent arrival section
-router.get("/createRecentArrivalSection", verifyJWT, createRecentArrivalSection);
+router.get("/getRecentArrivalSection", createRecentArrivalSection);
 
 
 module.exports = router;

@@ -6,13 +6,13 @@ const {registerCompanyLogo, getAllCompanyLogo,getCompanyLogo,updateCompanyLogo, 
 const router = express.Router();
 
 // register company logo
-router.post("/registerCompanyLogo",  upload.single('companyLogo'),registerCompanyLogo);
+router.post("/registerCompanyLogo", verifyJWT, upload.single('companyLogo'),registerCompanyLogo);
 
 // get company logo
 router.get("/getCompanyLogo/:logoId",getCompanyLogo);
 
 // get all register company logo
-router.get("/getAllCompanyLogo", verifyJWT, getAllCompanyLogo);
+router.get("/getAllCompanyLogo",  getAllCompanyLogo);
 
 // update company logo
 router.post("/updateCompanyLogo/:logoId", verifyJWT, upload.single("companyLogo"), updateCompanyLogo);

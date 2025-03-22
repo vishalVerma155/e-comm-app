@@ -5,7 +5,7 @@ const verifyJWT = require('../../../middleware/auth.middleware.js');
 const router = express.Router();
 
 // register On sale section
-router.get("/createOnSaleSection", verifyJWT, createOnSaleSection);
+router.get("/getOnSaleSection", createOnSaleSection);
 
 
 module.exports = router;

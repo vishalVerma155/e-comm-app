@@ -14,10 +14,10 @@ router.post("/updateImageSaleSection/:sectionId/:imageId", verifyJWT, upload.sin
 router.post("/updateSaleSection/:sectionId", verifyJWT, upload.array("saleSectionImages", 3), updateSaleSection);
 
 // get all sale sections
-router.get("/getAllSaleSection", verifyJWT, getAllSaleSection);
+router.get("/getAllSaleSection",  getAllSaleSection);
 
 // get particular sale section
-router.get("/getSaleSection/:sectionId", verifyJWT, getsaleSection);
+router.get("/getSaleSection/:sectionId",  getsaleSection);
 
 // delete sale section
 router.delete("/deletesaleSection/:sectionId", verifyJWT, deleteSaleSection );

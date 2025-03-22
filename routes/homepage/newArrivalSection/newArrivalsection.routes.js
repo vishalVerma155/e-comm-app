@@ -14,10 +14,10 @@ router.put("/updateImageNewArrivalSection/:sectionId/:imageId", verifyJWT, uploa
 router.put("/updateNewArrivalSection/:sectionId", verifyJWT, upload.array("newArrivalSectionImages", 2), updateNewArrivalSection);
 
 // get all NewArrival sections
-router.get("/getAllNewArrivalSection", verifyJWT, getAllNewArrivalSection);
+router.get("/getAllNewArrivalSection",  getAllNewArrivalSection);
 
 // get particular NewArrival section
-router.get("/getNewArrivalSection/:sectionId", verifyJWT, getNewArrivalSection);
+router.get("/getNewArrivalSection/:sectionId",  getNewArrivalSection);
 
 // delete NewArrival section
 router.delete("/deleteNewArrivalSection/:sectionId", verifyJWT, deleteNewArrivalSection );

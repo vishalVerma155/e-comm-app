@@ -16,11 +16,6 @@ const registerSaleSection = async (req, res) => {
             return res.status(401).json({ Message: "images not found" });
         }
 
-        // const images = files.map((file) => ({
-        //     path: file.path
-        // })); // get images
-
-
         const saleScetion = new SaleSection({
             image1: { path: saleImage1 },
             image2: { path: saleImage2 },

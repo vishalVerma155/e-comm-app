@@ -16,7 +16,7 @@ router.post("/updateHeroSection/:imageId", verifyJWT,upload.single("heroSectionI
 router.get("/getHeroSection/:imageId", getHeroSection);
 
 // get all hero section images
-router.get("/getAllHeroSectionImages", verifyJWT, getAllHeroSection);
+router.get("/getAllHeroSectionImages", getAllHeroSection);
 
 // delete hero section image
 router.delete("/deleteHeroSection/:imageId", verifyJWT, deleteHeroSection);
