@@ -108,7 +108,7 @@ const deleteProduct = async (req, res) => {
 // apply filters on products
 const applyFilterOnProducts = async (req, res) => {
     try {
-        const { productCategory, size, colour, brand, minPrice, maxPrice, minRating, minDiscount } = req.body; // get filter sections
+        const { productCategory, size, colour, brand, minPrice, maxPrice, minRating, minDiscount, onSale } = req.body; // get filter sections
 
 
         const filter = {};
@@ -123,6 +123,10 @@ const applyFilterOnProducts = async (req, res) => {
 
         if (colour) {
             filter.colour = { $in: colour.toString().split(',') }; // match colours in the array 
+        }
+
+        if(onSale){
+            filter.onSale = onSale;
         }
 
         if (brand) {

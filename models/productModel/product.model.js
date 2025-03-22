@@ -47,6 +47,10 @@ const productSchema = new mongoose.Schema(
       min: 0,
       max: 100,
     },
+    mrp: {
+      type: Number,
+      min: 0,
+    },
     mainImage: {
       type: String,
       required: true,
