@@ -102,20 +102,5 @@ try {
 }
 }
 
-const testCloudnariy = async(req, res) =>{
-    try {
-        if (!req.file) {
-            return res.status(400).json({ message: "No file uploaded" });
-          }
-      
-          // File successfully uploaded to Cloudinary
-          res.json({
-            message: "File uploaded successfully",
-            url: req.file.path, // Cloudinary URL of uploaded image
-          });
-    } catch (error) {
-    return res.status(400).json({Error : error.message}); 
-    }
-}
 
 module.exports = {registerCompanyLogo, getAllCompanyLogo, getCompanyLogo, updateCompanyLogo, deleteCompanyLogo, testCloudnariy};

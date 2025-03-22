@@ -6,7 +6,7 @@ const {registerCompanyLogo, getAllCompanyLogo,getCompanyLogo,updateCompanyLogo, 
 const router = express.Router();
 
 // register company logo
-router.post("/registerCompanyLogo", verifyJWT, upload.single('companyLogo'),registerCompanyLogo);
+router.post("/registerCompanyLogo",  upload.single('companyLogo'),registerCompanyLogo);
 
 // get company logo
 router.get("/getCompanyLogo/:logoId",getCompanyLogo);
@@ -20,5 +20,4 @@ router.post("/updateCompanyLogo/:logoId", verifyJWT, upload.single("companyLogo"
 // delete company logo
 router.delete("/deleteCompanyLogo/:logoId", verifyJWT, deleteCompanyLogo);
 
-router.post("/testClou", upload.single("companyLogo"), testCloudnariy);
 module.exports = router;
