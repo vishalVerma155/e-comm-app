@@ -1,7 +1,7 @@
 const express = require('express');
 const verifyJWT = require('../../middleware/auth.middleware.js');
 const {upload} = require('../../utils/multer.js');
-const {registerCompanyLogo, getAllCompanyLogo,getCompanyLogo,updateCompanyLogo, deleteCompanyLogo, testCloudnariy} = require('../../controllers/companyLogo/companyLogo.controllers.js')
+const {registerCompanyLogo, getAllCompanyLogo,getCompanyLogo,updateCompanyLogo, deleteCompanyLogo} = require('../../controllers/companyLogo/companyLogo.controllers.js')
 
 const router = express.Router();
 

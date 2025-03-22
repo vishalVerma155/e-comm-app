@@ -103,4 +103,4 @@ try {
 }
 
 
-module.exports = {registerCompanyLogo, getAllCompanyLogo, getCompanyLogo, updateCompanyLogo, deleteCompanyLogo, testCloudnariy};
+module.exports = {registerCompanyLogo, getAllCompanyLogo, getCompanyLogo, updateCompanyLogo, deleteCompanyLogo};
