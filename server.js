@@ -20,6 +20,7 @@ const recentArrivalSectionRouter = require('./routes/homepage/recentArrivalSecti
 const wishListRouter = require('./routes/wishList/wishList.routes.js');
 const cartRouter = require('./routes/cart/cart.routes.js');
 const adminRouter = require('./routes/admin/web/admin.routes.js');
+const colorsRouter = require('./routes/colors/colors.routes.js');
 
 
 // Load config from env file
@@ -53,6 +54,7 @@ app.use('/homePage/recentArrivalSection', recentArrivalSectionRouter);
 app.use("/wishList", wishListRouter);
 app.use("/cart", cartRouter);
 app.use("/admin", adminRouter);
+app.use("/colors", colorsRouter);
 
 
 
