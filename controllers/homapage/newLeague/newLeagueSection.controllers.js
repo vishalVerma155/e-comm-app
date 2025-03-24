@@ -54,12 +54,13 @@ const getAllNewLeagueSection = async (req, res) => {
     }
 }
 
-// update hero section
+// update new league section
 const updateNewLeagueSection = async (req, res) => {
     try {
         const imageId = req.params.imageId; // get image id
         const newImage = req.file ? req.file.path : undefined;
 
+        // console.log("newImage", newImage);
         if (!imageId) {
             return res.status(404).json({ Message: "Image id not found" }); // check image id 
         }
@@ -76,7 +77,7 @@ const updateNewLeagueSection = async (req, res) => {
 
         return res.status(200).json({ updated_NewLeague_Section: newLeagueSection }); // return response
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({error : error.message });
     }
 }
 

@@ -9,16 +9,16 @@ const router = express.Router();
 // register hero section
 router.post("/registerNewLeagueSection", verifyJWT, upload.single("newLeagueSectionImage"), registerNewLeagueSection);
 
-// update hero section
-router.put("/updateNewLeagueSection/:imageId", verifyJWT,upload.single("newLeagueSectionImage"), updateNewLeagueSection);
+// update new league section
+router.patch("/updateNewLeagueSection/:imageId", verifyJWT, upload.single("newLeagueSectionImage"), updateNewLeagueSection);
 
-// get hero section
+// get new league section
 router.get("/getNewLeagueSection/:imageId",  getNewLeagueSection);
 
-// get all hero section images
+// get all new league images
 router.get("/getAllNewLeagueSectionImages",  getAllNewLeagueSection);
 
-// delete hero section image
+// delete new league image
 router.delete("/deleteNewLeagueSection/:imageId", verifyJWT, deleteNewLeagueSection);
 
 module.exports = router;

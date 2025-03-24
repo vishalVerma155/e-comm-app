@@ -1,4 +1,4 @@
-const {NewArrivalSection} = require('../../../models/homepage/newArrivalSection/newArrivalSection.model.js');
+const { NewArrivalSection } = require('../../../models/homepage/newArrivalSection/newArrivalSection.model.js');
 
 // register NewArrival section
 const registerNewArrivalSection = async (req, res) => {
@@ -19,7 +19,7 @@ const registerNewArrivalSection = async (req, res) => {
         if (!newArrivalSection) {
             return res.status(401).json({ Message: "images not saved in database" }); // check new Arrival section
         }
-        return res.status(200).json({ Message: "New arrival section has been created",  newArrival_Section: newArrivalSection }); // return response
+        return res.status(200).json({ Message: "New arrival section has been created", newArrival_Section: newArrivalSection }); // return response
     } catch (error) {
         return res.status(400).json({ Error: error });
     }
@@ -39,13 +39,13 @@ const updateImageNewArrivalSection = async (req, res) => {
         if (!image) {
             return res.status(401).json({ Message: "new image path not found" }); // check new image image
         }
-        
+
         if (!sectionId) {
             return res.status(401).json({ Message: " section id not found" }); // check section id
         }
 
-        const updatedImage = await NewArrivalSection.findOneAndUpdate({_id : sectionId, "image._id" : imageId}, { $set : {"image.$.path" : image}}, {new : true}); // find and update image
-        
+        const updatedImage = await NewArrivalSection.findOneAndUpdate({ _id: sectionId, "image._id": imageId }, { $set: { "image.$.path": image } }, { new: true }); // find and update image
+
 
         if (!updatedImage) {
             return res.status(401).json({ Message: "Image not found. Wrong image id" }); // if image is updated or not
@@ -60,83 +60,83 @@ const updateImageNewArrivalSection = async (req, res) => {
 }
 
 // get update whole new arrival section
-const updateNewArrivalSection =  async (req, res) =>{
-try {
-    const sectionId = req.params.sectionId; // get section id
-    const files = req.files; // get images
+const updateNewArrivalSection = async (req, res) => {
+    try {
+        const sectionId = req.params.sectionId; // get section id
+        const files = req.files; // get images
 
-    if (!files) {
-        return res.status(401).json({ Message: "new images path not found" }); // check new image
+        if (!files) {
+            return res.status(401).json({ Message: "new images path not found" }); // check new image
+        }
+        if (!sectionId) {
+            return res.status(401).json({ Message: "sale section id not found" }); // check section id
+        }
+
+        const images = files.map((file) => ({
+            path: file.path
+        })); // get images
+
+        const updatedNewArrivalSection = await NewArrivalSection.findByIdAndUpdate(sectionId, { image: images }, { new: true }); // find and update image
+
+        if (!updatedNewArrivalSection) {
+            return res.status(404).json({ Message: "New arrival section not found. Wrong brand section id" });
+        }
+
+        return res.status(200).json({ Message: "New Arrival section has been updated", updated_NewArrival_Section: updatedNewArrivalSection }); // 
+
+    } catch (error) {
+        return res.status(400).json({ Error: error.message });
     }
-    if (!sectionId) {
-        return res.status(401).json({ Message: "sale section id not found" }); // check section id
-    }
-
-    const images = files.map((file) => ({
-        path: file.path
-    })); // get images
-
-    const updatedNewArrivalSection = await NewArrivalSection.findByIdAndUpdate(sectionId, {image :images }, {new : true}); // find and update image
-
-    if(!updatedNewArrivalSection){
-        return res.status(404).json({Message : "New arrival section not found. Wrong brand section id"});
-    }
-
-    return res.status(200).json({Message : "New Arrival section has been updated", updated_NewArrival_Section : updatedNewArrivalSection}); // 
-
-} catch (error) {
-    return res.status(400).json({ Error: error.message });
-}
 }
 
 // view all new arrival sections section
-const getAllNewArrivalSection = async (req, res) =>{
-try {
-    const list = await NewArrivalSection.find();
-    return res.status(200).json({All_NewArrival_section : list});
-} catch (error) {
-    return res.status(400).json({Error : error.message});
-}
+const getAllNewArrivalSection = async (req, res) => {
+    try {
+        const list = await NewArrivalSection.find();
+        return res.status(200).json({ All_NewArrival_section: list });
+    } catch (error) {
+        return res.status(400).json({ Error: error.message });
+    }
 }
 
 // get new arrival section
-const getNewArrivalSection = async (req, res) =>{
-try {
-    const sectionId = req.params.sectionId; // get section id
-    if(!sectionId){
-        return res.status(401).json({ Message: " section id not found" }); // check section id
+const getNewArrivalSection = async (req, res) => {
+    try {
+        const sectionId = req.params.sectionId; // get section id
+        if (!sectionId) {
+            return res.status(401).json({ Message: " section id not found" }); // check section id
+        }
+
+        const section = await NewArrivalSection.findById(sectionId); // find section
+
+        if (!section) {
+            return res.status(404).json({ Message: "Wrong new arrival section id. section not found" });
+        }
+
+        return res.status(200).json({ status: "successfull", new_Arrival_section: section }); // return response
+    } catch (error) {
+        return res.status(400).json({ Error: error.message });
     }
-
-    const section = await NewArrivalSection.findById(sectionId); // find section
-
-    if(!section){
-        return res.status(404).json({Message : "Wrong new arrival section id. section not found"});
-    }
-
-    return res.status(200).json({status : "successfull", new_Arrival_section : section}); // return response
-} catch (error) {
-    return res.status(400).json({Error : error.message});
-}
 }
 
 // delete new arrival section
-const deleteNewArrivalSection = async (req, res) =>{
+const deleteNewArrivalSection = async (req, res) => {
     try {
         const sectionId = req.params.sectionId; // get section id
-        if(!sectionId){
+        if (!sectionId) {
             return res.status(401).json({ Message: " section id not found" }); // check section id
         }
-    
+
         const section = await NewArrivalSection.findByIdAndDelete(sectionId); // find section and delete
-    
-        if(!section){
-            return res.status(404).json({Message : "Wrong  section id. New arrival section not found"});
+
+        if (!section) {
+            return res.status(404).json({ Message: "Wrong  section id. New arrival section not found" });
         }
-    
-        return res.status(200).json({Message : "successfull deleted", deleted_New_Arrival_section : section});
+
+        return res.status(200).json({ Message: "successfull deleted", deleted_New_Arrival_section: section });
     } catch (error) {
-        return res.status(400).json({Error : error.message});
+        return res.status(400).json({ Error: error.message });
     }
 }
 
-module.exports = {registerNewArrivalSection, updateImageNewArrivalSection, updateNewArrivalSection, getAllNewArrivalSection, getNewArrivalSection, deleteNewArrivalSection};
+module.exports = { registerNewArrivalSection, updateImageNewArrivalSection, updateNewArrivalSection, getAllNewArrivalSection, getNewArrivalSection, deleteNewArrivalSection };
