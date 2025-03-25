@@ -31,14 +31,17 @@ const registerNewArrivalSection = async (req, res) => {
 // update only one image in arrival section 
 const updateImageNewArrivalSection = async (req, res) => {
     try {
+        console.log("entered")
         const sectionId = req.params.sectionId; // get section id
         const files = req.files;
 
+        console.log("Section id : ", sectionId);
+        
         if (!sectionId) {
             return res.status(401).json({success : false, error: " section id not found" }); // check section id
         }
 
-        const section = await NewArrivalSection.findOne(sectionId); // find and update image
+        const section = await NewArrivalSection.findById(sectionId); // find and update image
 
         if (!section) {
             return res.status(401).json({success : false, error: "Section not found. Wrong Section id" }); 
