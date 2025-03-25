@@ -1,7 +1,7 @@
 const express = require('express');
-const {registerAdmin, loginAdmin} = require('../../../controllers/admin/web/admin.controllers.js');
+const {registerAdmin, loginAdmin, getAdminProfile, changePasswordAdmin} = require('../../../controllers/admin/web/admin.controllers.js');
 
-// const verifyJWT = require('../../middleware/auth.middleware.js')
+const verifyJWT = require('../../../middleware/auth.middleware.js')
 
 const router = express.Router();
 
@@ -10,6 +10,12 @@ router.post("/registerAdmin", registerAdmin );
 
 // login admin
 router.post("/loginAdmin", loginAdmin);
+
+// get admin profile
+router.get("/getAdmin", verifyJWT, getAdminProfile);
+
+// change admin password
+router.get("/changePasswordAdmin", verifyJWT, changePasswordAdmin);
 
 
 module.exports = router;

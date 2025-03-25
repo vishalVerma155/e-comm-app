@@ -69,13 +69,44 @@ const loginAdmin = async (req, res) => {
 // ✅ Get Admin Profile (Protected)
 const getAdminProfile = async (req, res) => {
     try {
-        const admin = await Admin.findById(req.admin.id).select('-password');
-        if (!admin) return res.status(404).json({ message: 'Admin not found' });
 
-        res.json(admin);
+        const userId = req.user._id;
+        const admin = await Admin.findById(userId).select('-password');
+        if (!admin) return res.status(404).json({success: false, error: 'Admin not found' });
+
+        return res.json({ success: true, message: 'Admin successfully fetched', admin });
+
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+      return  res.status(500).json({success: false, error : error.message });
     }
 };
 
-module.exports = { registerAdmin, loginAdmin, getAdminProfile };
+const changePasswordAdmin = async(req, res) =>{
+    try {
+        const { currentPassword, newPassword } = req.body; // take details
+
+        if (!currentPassword || currentPassword && currentPassword.trim() === "" || !newPassword || newPassword && newPassword.trim() === "") {
+            return res.status(401).json({success: false, error: "Please enter all fields" });
+        }
+    
+        const user = await Admin.findById(req.user._id);
+    
+    
+        // compare password
+        const isPasswordCorrect = await comparePassword(currentPassword, user.password);
+    
+        if (!isPasswordCorrect) {
+            return res.status(401).json({success: false, error: "password is not matched" });
+        }
+    
+        const newHashedPassword = await hashPassword(newPassword);
+        user.password = newHashedPassword;
+        await user.save();
+    
+        return res.status(200).json({success: true, Message: "Password has been chenged" });
+    } catch (error) {
+        return res.status(500).json({success: false, error : error.message });  
+    }
+}
+
+module.exports = { registerAdmin, loginAdmin, getAdminProfile, changePasswordAdmin };
