@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/registerSaleSection", verifyJWT, upload.fields([{name : "saleImage1", maxCount : 1}, {name : "saleImage2", maxCount : 1}, {name : "saleImage3", maxCount : 1}]), registerSaleSection);
 
 // update image in sale section
-router.post("/updateImageSaleSection/:sectionId", verifyJWT, upload.fields([{name : "saleImage1", maxCount : 1}, {name : "saleImage2", maxCount : 1}, {name : "saleImage3", maxCount : 1}]), updateImageSaleSection);
+router.patch("/updateImageSaleSection/:sectionId", verifyJWT, upload.fields([{name : "saleImage1", maxCount : 1}, {name : "saleImage2", maxCount : 1}, {name : "saleImage3", maxCount : 1}]), updateImageSaleSection);
 
 
 // get all sale sections
