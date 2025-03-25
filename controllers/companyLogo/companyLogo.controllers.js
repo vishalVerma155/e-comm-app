@@ -5,6 +5,7 @@ const {CompayLogo} = require('../../models/companyLogo/companyLogo.model.js');
 const registerCompanyLogo = async (req, res)=>{
 try {
     const logo = req.file?.path || undefined; // get image
+    
     if(!logo){
         return res.status(404).json({Message  : "Logo not found"});
     }

@@ -20,4 +20,6 @@ router.get("/getSaleSection/:sectionId",  getsaleSection);
 // delete sale section
 router.delete("/deletesaleSection/:sectionId", verifyJWT, deleteSaleSection );
 
+// delete image on clodaniry
+
 module.exports = router;
