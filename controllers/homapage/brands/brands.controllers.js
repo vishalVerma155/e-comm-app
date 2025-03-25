@@ -12,6 +12,9 @@ const registerBrandsSection = async (req, res) => {
             path: file.path
         })); // get images
 
+        if(images.length <= 0){
+            return res.status(401).json({success : false, error: "images not found" });
+        }
 
         const brandsSection = new Brands({ image: images }); // create brandse section
         await brandsSection.save();

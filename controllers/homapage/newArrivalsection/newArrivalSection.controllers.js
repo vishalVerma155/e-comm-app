@@ -16,7 +16,7 @@ const registerNewArrivalSection = async (req, res) => {
             image1: { path: newArrivalImage1 },
             image2: { path: newArrivalImage2 },
         }); // create sale section
-        
+
         await newArrivalSection.save();
 
         if (!newArrivalSection) {
@@ -31,66 +31,65 @@ const registerNewArrivalSection = async (req, res) => {
 // update only one image in arrival section 
 const updateImageNewArrivalSection = async (req, res) => {
     try {
-        const imageId = req.params.imageId; // get image id
-        const image = req.file.path; // get new image
         const sectionId = req.params.sectionId; // get section id
-
-        if (!imageId) {
-            return res.status(401).json({ Message: "old images id not found" }); // check old image
-        }
-
-        if (!image) {
-            return res.status(401).json({ Message: "new image path not found" }); // check new image image
-        }
+        const files = req.files;
 
         if (!sectionId) {
-            return res.status(401).json({ Message: " section id not found" }); // check section id
+            return res.status(401).json({success : false, error: " section id not found" }); // check section id
         }
 
-        const updatedImage = await NewArrivalSection.findOneAndUpdate({ _id: sectionId, "image._id": imageId }, { $set: { "image.$.path": image } }, { new: true }); // find and update image
+        const section = await NewArrivalSection.findOne(sectionId); // find and update image
 
-
-        if (!updatedImage) {
-            return res.status(401).json({ Message: "Image not found. Wrong image id" }); // if image is updated or not
+        if (!section) {
+            return res.status(401).json({success : false, error: "Section not found. Wrong Section id" }); 
         }
 
-        const updatedNewArrivalSection = await NewArrivalSection.findById(sectionId); // get updated new arrival section
+        if(files?.newArrivalImage1){
+            section.image1.path = files.newArrivalImage1[0].path;
+        }
+       
+        
+        if(files?.newArrivalImage2){
+            section.image2.path = files.newArrivalImage2[0].path;
+        }
 
-        return res.status(200).json({ Message: "Image has been updated", updated_NewArrival_Section: updatedNewArrivalSection }); // return response
+        await section.save();
+
+        return res.status(200).json({ success : true, Message: "Image has been updated", updated_NewArrival_Section: section }); // return response
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 }
 
 // get update whole new arrival section
-const updateNewArrivalSection = async (req, res) => {
-    try {
-        const sectionId = req.params.sectionId; // get section id
-        const files = req.files; // get images
+// const updateNewArrivalSection = async (req, res) => {
+//     try {
+//         const sectionId = req.params.sectionId; // get section id
+//         const files = req.files; // get images
 
-        if (!files) {
-            return res.status(401).json({ Message: "new images path not found" }); // check new image
-        }
-        if (!sectionId) {
-            return res.status(401).json({ Message: "sale section id not found" }); // check section id
-        }
+//         if (!files) {
+//             return res.status(401).json({ Message: "new images path not found" }); // check new image
+//         }
+//         if (!sectionId) {
+//             return res.status(401).json({ Message: "sale section id not found" }); // check section id
+//         }
 
-        const images = files.map((file) => ({
-            path: file.path
-        })); // get images
+//         const images = files.map((file) => ({
+//             path: file.path
+//         })); // get images
 
-        const updatedNewArrivalSection = await NewArrivalSection.findByIdAndUpdate(sectionId, { image: images }, { new: true }); // find and update image
+//         const updatedNewArrivalSection = await NewArrivalSection.findByIdAndUpdate(sectionId, { image: images }, { new: true }); // find and update image
 
-        if (!updatedNewArrivalSection) {
-            return res.status(404).json({ Message: "New arrival section not found. Wrong brand section id" });
-        }
+//         if (!updatedNewArrivalSection) {
+//             return res.status(404).json({ Message: "New arrival section not found. Wrong brand section id" });
+//         }
 
-        return res.status(200).json({ Message: "New Arrival section has been updated", updated_NewArrival_Section: updatedNewArrivalSection }); // 
+//         return res.status(200).json({ Message: "New Arrival section has been updated", updated_NewArrival_Section: updatedNewArrivalSection }); // 
 
-    } catch (error) {
-        return res.status(400).json({ Error: error.message });
-    }
-}
+//     } catch (error) {
+//         return res.status(400).json({ Error: error.message });
+//     }
+// }
 
 // view all new arrival sections section
 const getAllNewArrivalSection = async (req, res) => {
@@ -142,4 +141,4 @@ const deleteNewArrivalSection = async (req, res) => {
     }
 }
 
-module.exports = { registerNewArrivalSection, updateImageNewArrivalSection, updateNewArrivalSection, getAllNewArrivalSection, getNewArrivalSection, deleteNewArrivalSection };
+module.exports = { registerNewArrivalSection, updateImageNewArrivalSection,getAllNewArrivalSection, getNewArrivalSection, deleteNewArrivalSection };
