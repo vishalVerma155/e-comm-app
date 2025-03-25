@@ -4,24 +4,27 @@ const { NewArrivalSection } = require('../../../models/homepage/newArrivalSectio
 const registerNewArrivalSection = async (req, res) => {
     try {
         const files = req.files; // get images
+
         if (!files) {
-            return res.status(401).json({ Message: "images not found" });
+            return res.status(401).json({success : false, error: "images not found" });
         }
 
-        const images = files.map((file) => ({
-            path: file.path
-        })); // get images
+        const newArrivalImage1 = req.files.newArrivalImage1[0].path;
+        const newArrivalImage2 = req.files.newArrivalImage2[0].path;
 
-
-        const newArrivalSection = new NewArrivalSection({ image: images }); // create NewArrivalSection 
+        const newArrivalSection = new NewArrivalSection({
+            image1: { path: newArrivalImage1 },
+            image2: { path: newArrivalImage2 },
+        }); // create sale section
+        
         await newArrivalSection.save();
 
         if (!newArrivalSection) {
-            return res.status(401).json({ Message: "images not saved in database" }); // check new Arrival section
+            return res.status(401).json({success : false, error: "images not saved in database" }); // check new Arrival section
         }
-        return res.status(200).json({ Message: "New arrival section has been created", newArrival_Section: newArrivalSection }); // return response
+        return res.status(200).json({success : true, Message: "New arrival section has been created", newArrival_Section: newArrivalSection }); // return response
     } catch (error) {
-        return res.status(400).json({ Error: error });
+        return res.status(400).json({success : false, Error: error });
     }
 }
 

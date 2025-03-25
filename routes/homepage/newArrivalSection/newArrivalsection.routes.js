@@ -5,7 +5,7 @@ const verifyJWT = require('../../../middleware/auth.middleware.js');
 const router = express.Router();
 
 // register newArrival section
-router.post("/registerNewArrivalSection", verifyJWT, upload.array("newArrivalSectionImages", 2), registerNewArrivalSection);
+router.post("/registerNewArrivalSection", verifyJWT, upload.fields([{name : "newArrivalImage1", maxCount : 1}, {name : "newArrivalImage2", maxCount : 1}]), registerNewArrivalSection);
 
 // update image in NewArrival section
 router.put("/updateImageNewArrivalSection/:sectionId/:imageId", verifyJWT, upload.single("newArrivalSectionImage"), updateImageNewArrivalSection);

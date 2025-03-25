@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 
 const newArrivalSectionSchema = new mongoose.Schema({
-    image :[{
-        _id : {type : mongoose.Schema.Types.ObjectId, auto : true},
-        path : {type : String, required : true}
-    }]
+    image1 :{
+            _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+            path : { type: String, }
+        },
+        image2 :{
+            _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+            path : { type: String,  }
+        },
 });
 
 const NewArrivalSection = mongoose.model("newArrivalSection", newArrivalSectionSchema);

@@ -4,17 +4,15 @@ const registerSaleSection = async (req, res) => {
     try {
         const files = req.files; // get images
 
+        if (!files) {
+            return res.status(401).json({ Message: "images not found" });
+        }
+
         const saleImage1 = req.files.saleImage1[0].path;
         const saleImage2 = req.files.saleImage2[0].path;
         const saleImage3 = req.files.saleImage3[0].path;
 
-        console.log("IMG1", saleImage1)
-        console.log("IMG2", saleImage2)
-        console.log("IMG3", saleImage3)
-
-        if (!files) {
-            return res.status(401).json({ Message: "images not found" });
-        }
+        
 
         const saleScetion = new SaleSection({
             image1: { path: saleImage1 },
