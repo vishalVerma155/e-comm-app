@@ -1,17 +1,24 @@
 const {CompayLogo} = require('../../models/companyLogo/companyLogo.model.js');
+const {cloudinary} = require('../../utils/multer.js');
 
 
 // register company logo
 const registerCompanyLogo = async (req, res)=>{
 try {
     const logo = req.file?.path || undefined; // get image
+    const publicId  =  req.file?.filename || undefined;
     
     if(!logo){
         return res.status(404).json({Message  : "Logo not found"});
     }
 
+    if(!publicId){
+        return res.status(404).json({Message  : "Public id not found"});
+    }
+
     const createdLogo = new CompayLogo({
-        image : logo
+        image : logo,
+        publicId 
     });
     await createdLogo.save(); //  save logo
 
@@ -89,17 +96,22 @@ try {
     const logoId = req.params.logoId; // get logo id
 
     if(!logoId){
-        return res.status(404).json({Message : "Logo id not found"}); // check logo id 
+        return res.status(404).json({success : false, error : "Logo id not found"}); // check logo id 
     }
 
     const logo = await CompayLogo.findByIdAndDelete(logoId); // find logo and delete
+
+
     if(!logo){
-        return res.status(404).json({Message :  "Wrong logo id. Logo id not found"}); // check logo id 
+        return res.status(404).json({success : false, error :  "Wrong logo id. Logo id not found"}); // check logo id 
     }
 
-    return res.status(200).json({Message : "Logo has been deleted", deletedLogo : logo}); // return response
+    const cloudinaryRes = await cloudinary.uploader.destroy(logo.publicId);
+
+
+    return res.status(200).json({success : true, Message : "Logo has been deleted", deletedLogo : logo, cloudinary_res : cloudinaryRes.result}); // return response
 } catch (error) {
-    return res.status(400).json({Error : error.message});
+    return res.status(400).json({success : false, error : error.message});
 }
 }
 
