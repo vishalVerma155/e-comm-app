@@ -6,12 +6,12 @@ const createRecentArrivalSection = async(req, res) =>{
     try {
         const {productCategory, gender} = req.body;
 
-        if(productCategory && productCategory.trim() === ""){
-            return res.status(404).json({Message : "Blank fields is not allowed"});
+        if(!productCategory || productCategory && productCategory.trim() === ""){
+            return res.status(404).json({success : false, error : "Blank fields is not allowed"});
         }
 
-        if(gender && gender.trim() === ""){
-            return res.status(404).json({Message : "Blank fields is not allowed"});
+        if(!gender || gender && gender.trim() === ""){
+            return res.status(404).json({success : false, error : "Blank fields is not allowed"});
         }
         const upload = {};
         if(productCategory){
@@ -23,9 +23,9 @@ const createRecentArrivalSection = async(req, res) =>{
         }
 
         const recentArrivalSection = await Product.find({...upload}).sort({createdAt : -1});
-        return res.status(200).json({ Message: "Recent arrival Section has been created", recentArrivalSection });
+        return res.status(200).json({success : true, Message: "Recent arrival Section has been created", recentArrivalSection });
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 }
 

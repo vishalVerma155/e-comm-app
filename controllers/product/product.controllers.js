@@ -8,7 +8,7 @@ const createProduct = async (req, res) => {
         const subImages = req.files?.subImages ? req.files.subImages.map((file) => file.path) : undefined; // get subimages
 
         if (!mainImage || !body.productName || !body.productCategory || body.price < 1) {
-            return res.status(400).json({ Message: "Main image, Product name, category, and price are mandetory" }); // check validation
+            return res.status(400).json({success : false, error: "Main image, Product name, category, and price are mandetory" }); // check validation
         }
 
         const product = new Product({
@@ -20,12 +20,12 @@ const createProduct = async (req, res) => {
         await product.save(); // save product
 
         if (!product) {
-            return res.status(500).json({ Message: "Product not saved. something went wrong on server side" }); // check section is saved or not
+            return res.status(500).json({success : false, error: "Product not saved. something went wrong on server side" }); // check section is saved or not
         }
 
-        return res.status(200).json({ Message: "Product has been created", product });
+        return res.status(200).json({success : true, Message: "Product has been created", product });
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 }
 
@@ -47,13 +47,13 @@ const updateProduct = async (req, res) => {
         const updatedProduct = await Product.findByIdAndUpdate(productId, updateData, { new: true, runValidators: true }); // find and update section
 
         if (!updatedProduct) {
-            return res.status(404).json({ Message: "Wrong product id. Product not found" });
+            return res.status(404).json({success : false, error: "Wrong product id. Product not found" });
         }
 
-        return res.status(200).json({ Message: "Product has been updated", updated_Product: updatedProduct }); // return response
+        return res.status(200).json({success : true, Message: "Product has been updated", updated_Product: updatedProduct }); // return response
 
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 }
 
@@ -61,9 +61,9 @@ const updateProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
     try {
         const list = await Product.find(); // get all list 
-        return res.status(200).json({ all_Products: list });
+        return res.status(200).json({success : true, all_Products: list });
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({ success : false, error: error.message });
     }
 }
 
@@ -72,17 +72,17 @@ const getProduct = async (req, res) => {
     try {
         const productId = req.params.productId; // get product id
         if (!productId) {
-            return res.status(404).json({ Message: "Product id not found" });
+            return res.status(404).json({ success : false, error: "Product id not found" });
         }
 
         const product = await Product.findById(productId); // find product
         if (!product) {
-            return res.status(404).json({ Message: "Product not found. Wrong product id" });
+            return res.status(404).json({ success : false, error: "Product not found. Wrong product id" });
         }
 
-        return res.status(200).json({ status: "Successful", product })
+        return res.status(200).json({ success : true, status: "Successful", product })
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 }
 
@@ -91,17 +91,17 @@ const deleteProduct = async (req, res) => {
     try {
         const productId = req.params.productId; // get productId
         if (!productId) {
-            return res.status(404).json({ Message: "product Id not found" });
+            return res.status(404).json({success : false, error: "product Id not found" });
         }
 
         const deletedProduct = await Product.findByIdAndDelete(productId); // get product and delete
         if (!deletedProduct) {
-            return res.status(404).json({ Message: "Product not found. Wrong product id" });
+            return res.status(404).json({success : false, error: "Product not found. Wrong product id" });
         }
 
-        return res.status(200).json({ status: "Successful", deletedProduct });
+        return res.status(200).json({ success : true, deletedProduct });
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 }
 
@@ -157,9 +157,9 @@ const applyFilterOnProducts = async (req, res) => {
 
         const products = await Product.find({ ...filter }); // serach products with filter
 
-        return res.status(200).json({ Message: "Filtered products have been fetched", status: "sucessfull", products }); // return response  
+        return res.status(200).json({success : true, Message: "Filtered products have been fetched", products }); // return response  
     } catch (error) {
-        return res.status(400).json({ Error: error.message }); // return error if existed
+        return res.status(400).json({success : false, error: error.message }); // return error if existed
     }
 }
 module.exports = { createProduct, updateProduct, getAllProducts, getProduct, deleteProduct, applyFilterOnProducts };

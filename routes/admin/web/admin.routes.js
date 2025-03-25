@@ -15,7 +15,7 @@ router.post("/loginAdmin", loginAdmin);
 router.get("/getAdmin", verifyJWT, getAdminProfile);
 
 // change admin password
-router.get("/changePasswordAdmin", verifyJWT, changePasswordAdmin);
+router.patch("/changePasswordAdmin", verifyJWT, changePasswordAdmin);
 
 
 module.exports = router;

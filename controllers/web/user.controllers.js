@@ -10,17 +10,17 @@ const registerUser = async (req, res) => {
 
         // check blank fields
         const isBlank = [name, email].some(fields => fields.trim() === "");
-        console.log("username = ", userName, "email", email);
+        
 
         if (isBlank) {
-            return res.status(401).json({ Message: "Name and email are compulsary" });
+            return res.status(401).json({success : false, error: "Name and email are compulsary" });
         }
 
         // check if user is already existed
         const isUserExisted = await User.findOne({ email });
 
         if (isUserExisted) {
-            return res.status(401).json({ Message: "User is already existed. Please login or choose other user name" });
+            return res.status(401).json({success : false, error: "User is already existed. Please login or choose other user name" });
         }
 
 
@@ -46,7 +46,7 @@ const registerUser = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ Message: "User not found. There is something problem in user data saving" });
+            return res.status(404).json({success : false, error: "User not found. There is something problem in user data saving" });
         }
 
         const payload = {
@@ -60,10 +60,10 @@ const registerUser = async (req, res) => {
         res.cookie("AccessToken", accessToken);
 
         // return response
-        res.status(200).json({ Message: "User has been  successfully register.", user, token : accessToken });
+        res.status(200).json({success : true, Message: "User has been  successfully register.", user, token : accessToken });
 
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 
 };
@@ -78,21 +78,21 @@ const loginUser = async (req, res) => {
         const isBlank = [userName, password].some(fields => fields.trim() === "");
 
         if (isBlank) {
-            return res.status(401).json({ Message: "All fields are compulsary" });
+            return res.status(401).json({success : false, error: "All fields are compulsary" });
         }
 
         // check if user is existed
         const user = await User.findOne({ $or: [{ userName }, { email: userName }] });
 
         if (!user) {
-            return res.status(401).json({ Message: "User is not existed." });
+            return res.status(401).json({success : false, error: "User is not existed." });
         }
 
         // compare password
         const isPasswordCorrect = await comparePassword(password, user.password);
 
         if (!isPasswordCorrect) {
-            return res.status(401).json({ Message: "Invalid password" });
+            return res.status(401).json({success : false, error: "Invalid password" });
         }
 
 
@@ -108,10 +108,10 @@ const loginUser = async (req, res) => {
         res.cookie("AccessToken", accessToken);
 
         // return response
-        res.status(200).json({ Message: "User has been  sucessfully Loged in.", user, token : accessToken });
+        res.status(200).json({success : true, Message: "User has been  sucessfully Loged in.", user, token : accessToken });
 
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({success : false, error: error.message });
     }
 
 };
@@ -121,9 +121,9 @@ const getUserProfile = async (req, res) => {
     try {
         const userId = req.user._id; // take affiliate id from request
         const user = await User.findById(userId, { password: 0 });
-        return res.status(200).json({ user }); // return response
+        return res.status(200).json({ success : true, user }); // return response
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(400).json({ success : false, error: error.message });
     }
 }
 
@@ -135,20 +135,20 @@ try {
     const { password } = req.body;
     const user = await User.findById(userId); // find user
     if (!user) {
-        return res.status(404).json({ Message: "User not found" });
+        return res.status(404).json({success : false, error: "User not found" });
     }
 
     const isPasswordCorrect = await comparePassword(password, user.password);
     if (!isPasswordCorrect) {
-        return res.status(402).json({ Message: "Wrong password" });
+        return res.status(402).json({success : false, error: "Wrong password" });
     }
 
     await User.findByIdAndDelete(user._id); // find and delete user
 
     res.clearCookie("AccessToken"); // clear cookies for logout
-    return res.status(200).json({ Message: "User has been sucessfully deleted" }); // return response
+    return res.status(200).json({success : true, Message: "User has been sucessfully deleted" }); // return response
 } catch (error) {
-    return res.status(400).json({ Error: error.message });
+    return res.status(400).json({ success : false, error: error.message });
 }
 }
 
@@ -158,8 +158,8 @@ const changeUserPassword = async (req, res) => {
 try {
     const { currentPassword, newPassword } = req.body; // take details
 
-    if (currentPassword.trim() === "" || newPassword.trim() === "") {
-        return res.status(401).json({ Message: "Please enter all fields" });
+    if (!currentPassword || currentPassword && currentPassword.trim() === "" || !newPassword || newPassword && newPassword.trim() === "") {
+        return res.status(401).json({success : false, error: "Please enter all fields" });
     }
 
     const user = await User.findById(req.user._id);
@@ -169,14 +169,14 @@ try {
     const isPasswordCorrect = await comparePassword(currentPassword, user.password);
 
     if (!isPasswordCorrect) {
-        return res.status(401).json({ Message: "password is not matched" });
+        return res.status(401).json({success : false, error: "password is not matched" });
     }
 
     const newHashedPassword = await hashPassword(newPassword);
     user.password = newHashedPassword;
     await user.save();
 
-    return res.status(200).json({ Message: "Password has been chenged" });
+    return res.status(200).json({success : true, Message: "Password has been chenged" });
 } catch (error) {
     return res.status(400).json({ Error: error.message });
 }
@@ -186,11 +186,11 @@ try {
 const logoutUser = (req, res) => {
     try {
         res.clearCookie("AccessToken"); // clear cookies for logout
-    return res.status(200).json({
+    return res.status(200).json({success : true,
         Message: "User logedout sucessfully"
     })
     } catch (error) {
-    return res.status(400).json({ Error: error.message });
+    return res.status(400).json({success : false, error: error.message });
     }
 }
 
