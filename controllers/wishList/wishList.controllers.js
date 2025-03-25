@@ -51,24 +51,24 @@ const getWishList = async (req, res) => {
 }
 
 // remove product from wish list
-const removeProductFromWishlist = async ( req, res) => {
+const removeProductFromWishlist = async (req, res) => {
     try {
 
         const user = req.user._id;
         const productId = req.params.productId;
 
-        if(!user || !productId){
-            return res.status(404).json({Message : "product id or user id not found"})
+        if (!user || !productId) {
+            return res.status(404).json({ Message: "product id or user id not found" })
         }
 
         const wishlist = await WishList.findOneAndUpdate(
-            { userId : user},              // Find the wishlist for the user
+            { userId: user },              // Find the wishlist for the user
             { $pull: { products: productId } }, // Remove the product from the products array
             { new: true }                  // Return the updated wishlist
         );
 
         if (!wishlist) {
-            return res.status(404).json({ message: ' wishlist not found'});
+            return res.status(404).json({ message: ' wishlist not found' });
         }
 
         return res.status(200).json({ message: 'Product has been removed from wishlist', wishlist });

@@ -24,18 +24,16 @@ const registerNewArrivalSection = async (req, res) => {
         }
         return res.status(200).json({success : true, Message: "New arrival section has been created", newArrival_Section: newArrivalSection }); // return response
     } catch (error) {
-        return res.status(400).json({success : false, Error: error });
+        return res.status(400).json({success : false, error: error.message });
     }
 }
 
-// update only one image in arrival section 
+// update  images in arrival section 
 const updateImageNewArrivalSection = async (req, res) => {
     try {
-        console.log("entered")
         const sectionId = req.params.sectionId; // get section id
         const files = req.files;
 
-        console.log("Section id : ", sectionId);
         
         if (!sectionId) {
             return res.status(401).json({success : false, error: " section id not found" }); // check section id
