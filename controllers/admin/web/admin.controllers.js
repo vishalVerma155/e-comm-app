@@ -53,7 +53,7 @@ const loginAdmin = async (req, res) => {
 
         const payload = { 
             _id: admin._id, 
-            username: admin.username };
+            userName: admin.username };
         // Generate JWT Token
         const accessToken = generateJWT(payload);
 
