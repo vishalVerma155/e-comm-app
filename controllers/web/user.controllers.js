@@ -127,6 +127,18 @@ const getUserProfile = async (req, res) => {
     }
 }
 
+const getAllUsers = async(req, res) =>{
+    try {
+        if(!req.user || req.user.userName !== "admin"){
+            return res.status(401).json({success : false, error: "Only admin can get all users list" });
+        }
+        const all_Users = await User.find();
+        return res.status(200).json({ success : true, all_Users }); // return response
+    } catch (error) {
+        return res.status(400).json({ success : false, error: error.message });
+    }
+}
+
 // // delete user profile
 
 const deleteUserProfile = async (req, res) => {
@@ -195,4 +207,4 @@ const logoutUser = (req, res) => {
 }
 
 
-module.exports = { registerUser, loginUser, getUserProfile, changeUserPassword, deleteUserProfile, logoutUser };
+module.exports = { registerUser, loginUser, getUserProfile,getAllUsers, changeUserPassword, deleteUserProfile, logoutUser };

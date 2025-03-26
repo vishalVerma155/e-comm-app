@@ -22,7 +22,7 @@ const registerAdmin = async (req, res) => {
 
         const payload = {
             _id : newAdmin._id,
-            username : newAdmin.username
+            userName : newAdmin.username
         }
 
         const accessToken = generateJWT(payload);

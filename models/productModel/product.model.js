@@ -64,6 +64,10 @@ const productSchema = new mongoose.Schema(
         required: true,
         trim : true
     },
+    featured:{
+      type : Boolean,
+      trim : true
+  },
     gender : {
         type : String,
         enum : ["men", "women", "kids"],
