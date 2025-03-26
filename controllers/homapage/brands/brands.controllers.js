@@ -3,20 +3,12 @@ const {Brands} = require('../../../models/homepage/brands/brands.model.js');
 // register brands section
 const registerBrandsSection = async (req, res) => {
     try {
-        const files = req.files; // get images
-        if (!files) {
+        const path = req.file?.path || undefined; // get images
+        if (!path) {
             return res.status(401).json({ Message: "images not found" });
         }
 
-        const images = files.map((file) => ({
-            path: file.path
-        })); // get images
-
-        if(images.length <= 0){
-            return res.status(401).json({success : false, error: "images not found" });
-        }
-
-        const brandsSection = new Brands({ image: images }); // create brandse section
+        const brandsSection = new Brands({ image: path}); // create brandse section
         await brandsSection.save();
 
         if (!brandsSection) {
