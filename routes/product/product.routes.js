@@ -21,7 +21,7 @@ router.get("/getProduct/:productId",  getProduct);
 router.delete("/deleteProduct/:productId", verifyJWT, deleteProduct);
 
 // apply filter on price 
-router.get("/getFilteredProducts",  applyFilterOnProducts);
+router.post("/getFilteredProducts",  applyFilterOnProducts);
 
 
 // PRODUCT CATEGORY
