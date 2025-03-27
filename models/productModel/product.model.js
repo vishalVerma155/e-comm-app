@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema(
     productCategory: {
       type: String,
       required: true,
-      trim : true
+      trim: true
     },
     size: {
       type: [String], // Array of sizes
@@ -54,24 +54,28 @@ const productSchema = new mongoose.Schema(
       type: [String], // Array of image URLs/paths
       default: [],
     },
-    onSale :{
-        type : Boolean,
-        required: true,
-        trim : true
+    onSale: {
+      type: Boolean,
+      required: true,
+      trim: true
     },
-    featured:{
-      type : Boolean,
-      trim : true
-  },
-    gender : {
-        type : String,
-        enum : ["men", "women", "kids"],
-        trim : true
+    featured: {
+      type: Boolean,
+      trim: true
     },
-    productDescription : {
-      type : String,
-      trim : true
-  }
+    gender: {
+      type: String,
+      enum: ["men", "women", "kids"],
+      trim: true
+    },
+    productDescription: {
+      type: String,
+      trim: true
+    },
+    additionalInformation: {
+      type: String,
+      trim: true
+    }
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
