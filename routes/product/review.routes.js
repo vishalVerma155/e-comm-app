@@ -1,4 +1,4 @@
-const {createReview, getReviewsByProduct, deleteReview} = require('../../controllers/product/review.controllers.js');
+const {createReview, getReviewsByProduct, deleteReview, getAllReviews} = require('../../controllers/product/review.controllers.js');
 const express = require('express');
 const verifyJWT = require('../../middleware/auth.middleware.js');
 const router = express.Router();
@@ -12,6 +12,9 @@ router.get("/getReviews/:productId", getReviewsByProduct );
 
 // delete product
 router.delete("/deleteReview/:reviewId", verifyJWT, deleteReview);
+
+// get ALL reviews
+router.get("/getAllReviews", verifyJWT, getAllReviews);
 
 
 

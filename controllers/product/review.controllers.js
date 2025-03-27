@@ -48,6 +48,25 @@ const getReviewsByProduct = async(req, res) =>{
     }
 }
 
+
+const getAllReviews = async(req, res) =>{
+    try {
+        
+        if(req.user.userName !== "admin"){
+            return res.status(404).json({ success: false, error: "Only admin can delete reviews" });
+        }
+
+        const all_Reviews = await Review.find()
+        .populate("productId", "productName productCategory")
+        .populate("userId", "name")
+        ;
+        return res.status(200).json({ success: true, all_Reviews });
+
+    } catch (error) {
+       return res.status(500).json({success: false, error: error.message });
+    }
+}
+
 const deleteReview = async(req, res) =>{
     try {
         const reviewId = req.params.reviewId;
@@ -75,4 +94,4 @@ const deleteReview = async(req, res) =>{
     }
 }
 
-module.exports = {createReview, getReviewsByProduct, deleteReview};
+module.exports = {createReview, getReviewsByProduct, deleteReview, getAllReviews};

@@ -2,53 +2,91 @@ const Cart = require('../../models/cart/cart.model.js');
 
 const addProductInCart = async (req, res) => {
     try {
-        const userId = req.user._id; // get user id
-        const productId = req.params.productId; // get product id
+        const userId = req.user._id;  // Get user ID
+        const productId = req.params.productId;  // Get product ID
+        const { color, size, quantity } = req.body;  // Get color, size, and quantity
 
-        if (!productId) {
-            return res.status(404).json({ Message: "Product id not found" });
+        // Validate input
+        if (!productId || !color || !size || !quantity || quantity <= 0) {
+            return res.status(400).json({ Message: "Product ID, color, size, and valid quantity are required." });
         }
 
-        let cart = await Cart.findOne({ userId }); // check cart is existed or not
+        let cart = await Cart.findOne({ userId }); // Check if cart exists
 
         if (!cart) {
+            // Create new cart if not exist
             cart = new Cart({
                 userId,
-                products: [{ product: productId, quantity: 1 }],
-            })   // if cart is not existed then add user id and product id in this
+                products: [{ product: productId, quantity, color, size }],
+            });
         } else {
-            const existedProduct = cart.products.find((p) => p.product.toString() === productId); // check product is already existed in cart or not
+            // Check if the same product with the same color and size exists
+            const existedProduct = cart.products.find(
+                (p) => 
+                    p.product.toString() === productId &&
+                    p.color === color &&
+                    p.size === size
+            );
 
             if (existedProduct) {
-                existedProduct.quantity += 1;  // if existed then add quentity
+                existedProduct.quantity += quantity;  // Increase quantity based on request
             } else {
-                cart.products.push({ product: productId, quantity: 1 }) // if product not existed then add product
+                cart.products.push({ product: productId, quantity, color, size }); // Add new product variation
             }
         }
 
-        await cart.save(); // save the cart
+        await cart.save(); // Save the cart
 
-        return res.status(200).json({ Message: "cart has been updated", cart }); // return response
+        return res.status(200).json({ Message: "Cart has been updated", cart });
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(500).json({ Error: error.message });
     }
-}
+};
+
 
 // get wishlist
+// const getCart = async (req, res) => {
+//     try {
+//         const userId = req.user._id; // get user id
+//         const cart = await Cart.findOne({ userId }).populate('products.product');
+
+//         if (!cart) {
+//             return res.status(400).json({ Message: "Cart is not existed" });
+//         }
+
+//         return res.status(200).json({ status: "Successfull", cart });
+//     } catch (error) {
+//         return res.status(400).json({ Error: error.message });
+//     }
+// }
+
 const getCart = async (req, res) => {
     try {
-        const userId = req.user._id; // get user id
+        const userId = req.user._id; // Get user ID
         const cart = await Cart.findOne({ userId }).populate('products.product');
 
         if (!cart) {
-            return res.status(400).json({ Message: "Cart is not existed" });
+            return res.status(400).json({ Message: "Cart does not exist" });
         }
 
-        return res.status(200).json({ status: "Successfull", cart });
+        // Format the response to include color and size for each product
+        const formattedCart = cart.products.map((item) => ({
+            productId: item.product._id,
+            name: item.product.name,
+            price: item.product.price,
+            image: item.product.image,
+            quantity: item.quantity,
+            color: item.color,
+            size: item.size
+        }));
+
+        return res.status(200).json({ status: "Successful", cart: formattedCart });
     } catch (error) {
-        return res.status(400).json({ Error: error.message });
+        return res.status(500).json({ Error: error.message });
     }
-}
+};
+
+
 
 // remove product from cart
 const removeProductFromCart = async (req, res) => {
@@ -81,7 +119,7 @@ const removeProductFromCart = async (req, res) => {
             await cart.save(); // save the cart
             return res.status(200).json({ message: 'Product has been removed from cart', cart });
         }
-        
+
     } catch (error) {
         return res.status(400).json({ Error: error.message });
     }
