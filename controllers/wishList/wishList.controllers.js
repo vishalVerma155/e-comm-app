@@ -41,7 +41,7 @@ const getWishList = async (req, res) => {
         const userId = req.user._id; // get user id
         const wishlist = await WishList.findOne({ userId }).populate({
             path: "products",
-            select: "productName mainImage productCategory price", // ✅ Pop;
+            select: "productName mainImage productCategory price stock", // ✅ Pop;
         })
 
         if (!wishlist) {
