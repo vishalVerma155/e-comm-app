@@ -22,6 +22,7 @@ const cartRouter = require('./routes/cart/cart.routes.js');
 const adminRouter = require('./routes/admin/web/admin.routes.js');
 const colorsRouter = require('./routes/colors/colors.routes.js');
 const reviewRouter = require('./routes/product/review.routes.js');
+const orderRouter = require("./routes/order/order.routes.js");
 
 
 // Load config from env file
@@ -42,6 +43,7 @@ const dbconnect = require('./config/db.js');
 // routes 
 app.use("/user", userRouter);
 app.use("/product", productRouter);
+app.use("/product", reviewRouter);
 app.use("/companyLogo", companyLogoRouter);
 app.use("/homePage/heroSection", heroSectionRouter);
 app.use("/homePage/saleSection", salesectionRouter);
@@ -54,9 +56,9 @@ app.use('/homePage/newArrivalSection', newArrivalSectionRouter);
 app.use('/homePage/recentArrivalSection', recentArrivalSectionRouter);
 app.use("/wishList", wishListRouter);
 app.use("/cart", cartRouter);
+app.use("/cart", orderRouter);
 app.use("/admin", adminRouter);
 app.use("/colors", colorsRouter);
-app.use("/product", reviewRouter);
 
 
 
