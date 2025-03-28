@@ -63,6 +63,11 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       trim: true
     },
+    stock: {
+      type: Boolean,
+      trim: true,
+      default : true
+    },
     gender: {
       type: String,
       enum: ["men", "women", "kids"],
