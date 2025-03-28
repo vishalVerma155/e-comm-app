@@ -1,4 +1,5 @@
 const Cart = require('../../models/cart/cart.model.js');
+const Product = require("../../models/productModel/product.model.js")
 
 const addProductInCart = async (req, res) => {
     try {
@@ -63,7 +64,11 @@ const addProductInCart = async (req, res) => {
 const getCart = async (req, res) => {
     try {
         const userId = req.user._id; // Get user ID
-        const cart = await Cart.findOne({ userId }).populate('products.product');
+        const cart = await Cart.findOne({ userId }).populate({
+            path: "products.product", // Populate the product field inside products array
+            model: "Product", // Explicitly specify the model
+            select: "productName mainImage"
+        });;
 
         if (!cart) {
             return res.status(400).json({ Message: "Cart does not exist" });
