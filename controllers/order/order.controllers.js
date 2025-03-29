@@ -39,7 +39,7 @@ const createOrder = async (req, res) => {
 const getAllOrdersByUser = async (req, res) => {
     try {
         const userId = req.user._id;
-        const orders = await Order.find({ userId }).populate("userId", "name email").populate("products.product", "productName").populate("shippingAddress").populate("billingAddress");
+        const orders = await Order.find({ userId }).populate("userId", "name email").populate("products.product", "productName price").populate("shippingAddress").populate("billingAddress");
 
         if (!orders || orders.length <= 0) {
             return res.status(400).json({ success: false, error: "There is not any order of this user" });
@@ -59,7 +59,7 @@ const getAllOrdersForAdmin = async (req, res) => {
             return res.status(400).json({ success: false, error: "Only admin can do this." });
         }
 
-        const orders = await Order.find().populate("userId", "name email").populate("products.product", "productName").populate("shippingAddress").populate("billingAddress");
+        const orders = await Order.find().populate("userId", "name email").populate("products.product", "productName price").populate("shippingAddress").populate("billingAddress");
 
 
         return res.status(200).json({ success: true, orders });
@@ -72,7 +72,7 @@ const getAllOrdersForAdmin = async (req, res) => {
 const getOrderById = async (req, res) => {
     try {
         const orderId = req.params.orderId;
-        const order = await Order.findById(orderId).populate("userId", "name email").populate("products.product", "productName").populate("shippingAddress").populate("billingAddress");
+        const order = await Order.findById(orderId).populate("userId", "name email").populate("products.product", "productName price").populate("shippingAddress").populate("billingAddress");
         if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
         return res.status(200).json({ success: true, order });
     } catch (error) {
@@ -99,7 +99,7 @@ const updateOrder = async (req, res) => {
 
         const order = await Order.findByIdAndUpdate(orderId, {status}, { new: true })
             .populate("userId", "name email")
-            .populate("products.product", "productName")
+            .populate("products.product", "productName price")
             .populate("shippingAddress")
             .populate("billingAddress");
 

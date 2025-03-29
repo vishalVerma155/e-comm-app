@@ -28,7 +28,7 @@ const AddressSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    emailAddress: {
+    email: {
         type: String,
 
     },
