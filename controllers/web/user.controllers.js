@@ -1,5 +1,6 @@
 const User = require('../../models/userModel/user.model.js');
 const Cart = require("../../models/cart/cart.model.js");
+const WishList = require('../../models/wishList/wishList.model.js')
 const { hashPassword, comparePassword } = require('../../utils/bcrypt.js');
 const { generateJWT } = require('../../utils/jwt.js')
 
