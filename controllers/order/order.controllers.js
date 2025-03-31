@@ -1,7 +1,8 @@
 const Order = require("../../models/order/order.model.js");
 const Address = require('../../models/order/address.model.js');
 const Product = require("../../models/productModel/product.model.js");
-const User = require('../../models/userModel/user.model.js')
+const User = require('../../models/userModel/user.model.js');
+const Cart = require("../../models/cart/cart.model.js");
 
 // Create an Order
 const createOrder = async (req, res) => {
@@ -29,7 +30,16 @@ const createOrder = async (req, res) => {
         });
         await order.save();
 
-        return res.status(201).json({ success: true, message: "Order has been created successfully", order });
+        const cart = await Cart.findOne({userId});
+
+        if(!cart){
+            return res.status(400).json({ success: false, error: "cart not found" });
+        }
+
+        cart.products = [];
+        await cart.save();
+
+        return res.status(201).json({ success: true, message: "Order has been created successfully", order, cart });
     } catch (error) {
         return res.status(500).json({ success: false, error: error.message });
     }
@@ -40,7 +50,7 @@ const getAllOrdersByUser = async (req, res) => {
     try {
         const userId = req.user._id;
         const orders = await Order.find({ userId }).populate("userId", "name email").populate("products.product", "productName price mainImage").populate("shippingAddress").populate("billingAddress");
-
+        
         return res.status(200).json({ success: true, orders });
     } catch (error) {
         return res.status(500).json({ success: false, error: error.message });
