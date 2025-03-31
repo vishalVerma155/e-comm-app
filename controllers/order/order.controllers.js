@@ -41,10 +41,6 @@ const getAllOrdersByUser = async (req, res) => {
         const userId = req.user._id;
         const orders = await Order.find({ userId }).populate("userId", "name email").populate("products.product", "productName price mainImage").populate("shippingAddress").populate("billingAddress");
 
-        if (!orders || orders.length <= 0) {
-            return res.status(400).json({ success: false, error: "There is not any order of this user" });
-        }
-
         return res.status(200).json({ success: true, orders });
     } catch (error) {
         return res.status(500).json({ success: false, error: error.message });

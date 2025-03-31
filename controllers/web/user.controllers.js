@@ -50,7 +50,14 @@ const registerUser = async (req, res) => {
         })
 
         await cart.save();
-        console.log("Cart has been sucessfully made.");
+
+        const  wishList = new WishList({
+            userId : newUser._id,
+            products: [],
+        })   
+
+        await wishList.save();
+        console.log("Cart and wishlist has been sucessfully made.");
 
         const payload = {
             _id: newUser._id,
