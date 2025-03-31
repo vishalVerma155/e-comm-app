@@ -61,11 +61,7 @@ const getCart = async (req, res) => {
             select: "productName mainImage price"
         });;
 
-        if (!cart) {
-            return res.status(400).json({success : false, error: "Cart does not exist" });
-        }
-
-        return res.status(200).json({success : true, cart });
+        return res.status(200).json({success : true, cart : cart ? cart : "Cart is empty" });
     } catch (error) {
         return res.status(500).json({success : false, error: error.message });
     }
@@ -76,17 +72,17 @@ const removeProductFromCart = async (req, res) => {
     try {
         const userId = req.user._id;  // Get user ID
         const productId = req.params.productId;  // Get product ID
-        const { color, size } = req.body;  // Get color and size from request
+        const { color, size, quantity } = req.body;  // Get color, size, and quantity from request
 
         // Validate input
-        if (!userId || !productId || !color || !size) {
-            return res.status(400).json({success : false, error: "User ID, product ID, color, and size are required." });
+        if (!userId || !productId || !color || !size || !quantity || quantity <= 0) {
+            return res.status(400).json({ success: false, error: "User ID, product ID, color, size, and valid quantity are required." });
         }
 
         const cart = await Cart.findOne({ userId });  // Find the cart
 
         if (!cart) {
-            return res.status(404).json({success : false, error: "Cart not found." });
+            return res.status(404).json({ success: false, error: "Cart not found." });
         }
 
         // Find index of the product with the same color and size
@@ -95,22 +91,23 @@ const removeProductFromCart = async (req, res) => {
         );
 
         if (index === -1) {
-            return res.status(404).json({success : false, error: "Product not found in the cart." });
+            return res.status(404).json({ success: false, error: "Product not found in the cart." });
         }
 
-        if (cart.products[index].quantity > 1) {
-            cart.products[index].quantity -= 1;  // Reduce quantity
+        if (cart.products[index].quantity > quantity) {
+            cart.products[index].quantity -= quantity;  // Reduce quantity
         } else {
-            cart.products.splice(index, 1);  // Remove product if quantity is 1
+            cart.products.splice(index, 1);  // Remove product if quantity to remove is equal or greater
         }
 
         await cart.save();  // Save updated cart
 
-        return res.status(200).json({success : true, message: "Cart has been updated.", cart });
+        return res.status(200).json({ success: true, message: "Cart has been updated.", cart });
     } catch (error) {
-        return res.status(500).json({success : false, error: error.message });
+        return res.status(500).json({ success: false, error: error.message });
     }
 };
+
 
 
 module.exports = { addProductInCart, getCart, removeProductFromCart };

@@ -1,5 +1,5 @@
 const express = require('express');
-const {registerUser, loginUser, changeUserPassword, deleteUserProfile, logoutUser, getUserProfile} = require('../../controllers/web/user.controllers.js');
+const {registerUser, loginUser, changeUserPassword, deleteUserProfile, logoutUser, getUserProfile, editUserProfile} = require('../../controllers/web/user.controllers.js');
 const verifyJWT = require('../../middleware/auth.middleware.js');
 
 
@@ -22,6 +22,10 @@ router.delete("/deleteUser", verifyJWT, deleteUserProfile);
 
 // get user profile
 router.get("/getUserProfile", verifyJWT, getUserProfile);
+
+// update user profile
+router.patch("/updateUserProfile", verifyJWT, editUserProfile);
+
 
 
 module.exports = router;
