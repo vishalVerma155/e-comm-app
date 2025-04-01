@@ -7,7 +7,6 @@ const router = express.Router();
 // create product
 router.post("/createQuery", createQuery);
 
-
 // delete product
 router.delete("/deleteQuery/:queryId", verifyJWT, deleteQuery);
 

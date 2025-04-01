@@ -1,4 +1,4 @@
-const {createProduct, updateProduct, getAllProducts, getProduct, deleteProduct, applyFilterOnProducts} = require('../../controllers/product/product.controllers.js');
+const {createProduct, updateProduct, getAllProducts, getProduct,getProductCount, deleteProduct, applyFilterOnProducts} = require('../../controllers/product/product.controllers.js');
 const express = require('express');
 const verifyJWT = require('../../middleware/auth.middleware.js');
 const { upload } = require('../../utils/multer.js');
@@ -29,6 +29,8 @@ router.get("/getAllRegisterCategory",  getAllRegisterCategories);
 
 // get all register bfrands
 router.get("/getAllRegisterBrands",  getAllRegisterBrands);
+
+router.get("/getProductCount",verifyJWT, getProductCount);
 
 
 module.exports = router;

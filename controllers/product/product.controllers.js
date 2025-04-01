@@ -166,4 +166,15 @@ const applyFilterOnProducts = async (req, res) => {
         return res.status(400).json({success : false, error: error.message }); // return error if existed
     }
 }
-module.exports = { createProduct, updateProduct, getAllProducts, getProduct, deleteProduct, applyFilterOnProducts };
+
+const getProductCount = async(req, res) =>{
+    try {
+        const productCount = await Product.countDocuments();
+
+        return res.status(200).json({success : true,  productCount }); // return response  
+    } catch (error) {
+        
+    }
+}
+
+module.exports = { createProduct, updateProduct, getAllProducts, getProduct, deleteProduct, applyFilterOnProducts, getProductCount };
