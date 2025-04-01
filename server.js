@@ -23,6 +23,7 @@ const adminRouter = require('./routes/admin/web/admin.routes.js');
 const colorsRouter = require('./routes/colors/colors.routes.js');
 const reviewRouter = require('./routes/product/review.routes.js');
 const orderRouter = require("./routes/order/order.routes.js");
+const queryRouter = require("./routes/query/query.routes.js")
 
 
 // Load config from env file
@@ -59,6 +60,7 @@ app.use("/cart", cartRouter);
 app.use("/cart", orderRouter);
 app.use("/admin", adminRouter);
 app.use("/colors", colorsRouter);
+app.use("/query", queryRouter);
 
 
 
